@@ -6,10 +6,15 @@ interface Coords {
   y: number;
 }
 
+export type PointerModes = "pen" | "select" | "none";
+
 interface BoardState {
-  shapes: Shape[];
+  pointerMode: PointerModes;
+  setPointerMode: (p: PointerModes) => void;
+
   selectedId?: string;
 
+  shapes: Shape[];
   addShape: (shape: Shape) => void;
   updateShape: (id: string, updates: Partial<Shape>) => void;
 
@@ -20,16 +25,18 @@ interface BoardState {
 }
 
 export const useBoardStore = create<BoardState>((set) => ({
-  shapes: [],
+  pointerMode: "select",
+  setPointerMode: (p) => {
+    set({ pointerMode: p });
+  },
+
   selectedId: undefined,
 
-  // Add a shape to the boardstate
+  shapes: [],
   addShape: (shape) =>
     set((state) => ({
       shapes: [...state.shapes, shape],
     })),
-
-  // Update one or more properties of a given shape on the board
   updateShape: <T extends Shape["type"]>(
     id: string,
     updates: Partial<Extract<Shape, { type: T }>>,
