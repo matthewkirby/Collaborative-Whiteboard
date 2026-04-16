@@ -1,0 +1,7 @@
+export const Footer = () => {
+  return (
+    <div className="bg-slate-600 p-2">
+      Users:
+    </div>
+  )
+}
