@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { Shape } from "../types/shapes";
+import type { ShapeModels } from "../types/shapemodels";
 
 interface Coords {
   x: number;
@@ -14,9 +14,9 @@ interface BoardState {
 
   selectedId?: string;
 
-  shapes: Shape[];
-  addShape: (shape: Shape) => void;
-  updateShape: (id: string, updates: Partial<Shape>) => void;
+  shapes: ShapeModels[];
+  addShape: (shape: ShapeModels) => void;
+  updateShape: (id: string, updates: Partial<ShapeModels>) => void;
 
   draggingId?: string;
   draggingOffset?: Coords;
@@ -37,9 +37,9 @@ export const useBoardStore = create<BoardState>((set) => ({
     set((state) => ({
       shapes: [...state.shapes, shape],
     })),
-  updateShape: <T extends Shape["type"]>(
+  updateShape: <T extends ShapeModels["type"]>(
     id: string,
-    updates: Partial<Extract<Shape, { type: T }>>,
+    updates: Partial<Extract<ShapeModels, { type: T }>>,
   ) =>
     set((state) => ({
       shapes: state.shapes.map((s) => (s.id === id ? { ...s, ...updates } : s)),
@@ -61,7 +61,7 @@ export const useBoardStore = create<BoardState>((set) => ({
   },
 }));
 // For future me, regarding the typing in updateShape
-// `Shape` is a union of types
+// `Shapes` is a union of types
 // Extract allows you to select only union members that match
 // Partial gives the specified type with every field set to optional
 //
