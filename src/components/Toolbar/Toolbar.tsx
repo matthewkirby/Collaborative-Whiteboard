@@ -2,17 +2,21 @@ import { nanoid } from "nanoid";
 import { useBoardStore } from "../../store/boardStore";
 
 interface ButtonProps {
+  display: string;
   name: string;
   onClick: () => void;
 }
 
-const Button = ({ name, onClick }: ButtonProps) => {
+const Button = ({ display, name, onClick }: ButtonProps) => {
+  const pointerMode = useBoardStore((s) => s.pointerMode);
+  const isActive = pointerMode === name;
+
   return (
     <button
-      className="p-2 first:border-l border-r border-y border-black bg-gray-300 hover:bg-gray-400 active:bg-blue-400"
+      className={`p-2 first:border-l border-r border-y border-black ${isActive ? "underline bg-blue-200 hover:bg-blue-300" : "bg-gray-300 hover:bg-gray-400"} active:bg-blue-400`}
       onClick={() => onClick()}
     >
-      {name}
+      {display}
     </button>
   );
 };
@@ -45,13 +49,25 @@ export const Toolbar = () => {
   return (
     <div className="flex bg-slate-600 p-2 gap-2">
       <span>
-        <Button name="Pen" onClick={() => setPointerMode("pen")} />
-        <Button name="Select" onClick={() => setPointerMode("select")} />
-        <Button name="None" onClick={() => setPointerMode("none")} />
+        <Button
+          display="Pen"
+          name="pen"
+          onClick={() => setPointerMode("pen")}
+        />
+        <Button
+          display="Select"
+          name="select"
+          onClick={() => setPointerMode("select")}
+        />
+        <Button
+          display="None"
+          name="none"
+          onClick={() => setPointerMode("none")}
+        />
       </span>
       <span>
-        <Button name="Rectangle" onClick={addRectangle} />
-        <Button name="Circle" onClick={addCircle} />
+        <Button display="Rectangle" name="rectangle" onClick={addRectangle} />
+        <Button display="Circle" name="circle" onClick={addCircle} />
       </span>
     </div>
   );
