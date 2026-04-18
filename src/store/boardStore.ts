@@ -9,10 +9,12 @@ interface Coords {
 export type PointerModes = "pen" | "select" | "none";
 
 interface BoardState {
+  selectedId?: string;
+  updateSelection: (id: string) => void;
+  resetSelection: () => void;
+
   pointerMode: PointerModes;
   setPointerMode: (p: PointerModes) => void;
-
-  selectedId?: string;
 
   shapes: ShapeModels[];
   addShape: (shape: ShapeModels) => void;
@@ -25,12 +27,18 @@ interface BoardState {
 }
 
 export const useBoardStore = create<BoardState>((set) => ({
-  pointerMode: "select",
-  setPointerMode: (p) => {
-    set({ pointerMode: p });
+  selectedId: undefined,
+  updateSelection: (id) => {
+    set({ selectedId: id });
+  },
+  resetSelection: () => {
+    set({ selectedId: undefined });
   },
 
-  selectedId: undefined,
+  pointerMode: "select",
+  setPointerMode: (p) => {
+    set({ pointerMode: p, selectedId: undefined });
+  },
 
   shapes: [],
   addShape: (shape) =>

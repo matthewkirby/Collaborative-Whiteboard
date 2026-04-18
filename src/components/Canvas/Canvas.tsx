@@ -10,6 +10,10 @@ export const Canvas = () => {
   const draggingId = useBoardStore((s) => s.draggingId);
   const draggingOffset = useBoardStore((s) => s.draggingOffset);
 
+  const pointerMode = useBoardStore((s) => s.pointerMode);
+  const selectedId = useBoardStore((s) => s.selectedId);
+  const resetSelection = useBoardStore((s) => s.resetSelection);
+
   const handleMouseUp = () => {
     stopDrag();
   };
@@ -19,6 +23,13 @@ export const Canvas = () => {
     const y = e.nativeEvent.offsetY - draggingOffset.y;
     updateShape(draggingId, { x, y });
   };
+  const handleOnClick = () => {
+    if (pointerMode === "select") {
+      if (selectedId) {
+        resetSelection();
+      }
+    }
+  };
 
   return (
     <div className="min-h-0 overflow-auto">
@@ -26,6 +37,7 @@ export const Canvas = () => {
         className="bg-slate-800 w-full h-full"
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
+        onClick={handleOnClick}
       >
         {shapes.map((shape, i) => {
           return <Shape key={i} shape={shape} />;

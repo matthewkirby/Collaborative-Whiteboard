@@ -1,22 +1,23 @@
-import type React from "react";
 import type { RectangleModel } from "../../types/shapemodels";
+import type { ShapeComponentProps } from "../../types/shapecomponents";
 
-interface RectangleProps {
-  shape: RectangleModel;
-  onMouseDown: (e: React.MouseEvent) => void;
-}
-
-export const Rectangle = ({ shape, onMouseDown }: RectangleProps) => {
+export const Rectangle = ({
+  shape,
+  onMouseDown,
+  onClick,
+}: ShapeComponentProps) => {
+  const rectangle = shape as RectangleModel;
   return (
     <rect
-      key={shape.id}
-      x={shape.x}
-      y={shape.y}
-      width={shape.width}
-      height={shape.height}
+      key={rectangle.id}
+      x={rectangle.x} // Top left corner of rect
+      y={rectangle.y} // Top left corner of rect
+      width={rectangle.width}
+      height={rectangle.height}
       fill="white"
       stroke="black"
       onMouseDown={onMouseDown}
+      onClick={onClick}
     />
   );
 };
