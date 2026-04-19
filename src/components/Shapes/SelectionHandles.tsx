@@ -6,46 +6,33 @@ interface SelectionHandlesProps {
 
 const HANDLE_SIZE = 8;
 
-const getDimensions = (
-  shape: ShapeModels,
-): { x: number; y: number; width: number; height: number } | null => {
-  switch (shape.type) {
-    case "rectangle":
-      return {
-        x: shape.x,
-        y: shape.y,
-        width: shape.width,
-        height: shape.height,
-      };
-    case "circle":
-      return {
-        x: shape.x - shape.radius,
-        y: shape.y - shape.radius,
-        width: 2 * shape.radius,
-        height: 2 * shape.radius,
-      };
-    default:
-      return null;
-  }
-};
-
 export const SelectionHandles = ({ shape }: SelectionHandlesProps) => {
-  const dims = getDimensions(shape);
-  if (dims === null) {
-    return null;
-  }
-
-  const { x, y, width, height } = dims;
+  const { x, y, width, height } = shape;
 
   const handleCoords = [
-    { cx: x, cy: y }, // Top Left
-    { cx: x + width / 2, cy: y }, // Top Center
-    { cx: x + width, cy: y }, // Top Right
-    { cx: x, cy: y + height / 2 }, // Middle Left
-    { cx: x + width, cy: y + height / 2 }, // Middle Right
-    { cx: x, cy: y + height }, // Bottom Left
-    { cx: x + width / 2, cy: y + height }, // Bottom Center
-    { cx: x + width, cy: y + height }, // Bottom Right
+    // Top Left
+    { cx: x, cy: y, styles: "cursor-nwse-resize" },
+
+    // Top Center
+    { cx: x + width / 2, cy: y, styles: "cursor-ns-resize" },
+
+    // Top Right
+    { cx: x + width, cy: y, styles: "cursor-nesw-resize" },
+
+    // Middle Left
+    { cx: x, cy: y + height / 2, styles: "cursor-ew-resize" },
+
+    // Middle Right
+    { cx: x + width, cy: y + height / 2, styles: "cursor-ew-resize" },
+
+    // Bottom Left
+    { cx: x, cy: y + height, styles: "cursor-nesw-resize" },
+
+    // Bottom Center
+    { cx: x + width / 2, cy: y + height, styles: "cursor-ns-resize" },
+
+    // Bottom Right
+    { cx: x + width, cy: y + height, styles: "cursor-nwse-resize" },
   ];
 
   return (
@@ -60,6 +47,7 @@ export const SelectionHandles = ({ shape }: SelectionHandlesProps) => {
           stroke="blue"
           strokeWidth={1}
           key={i}
+          className={h.styles}
         />
       ))}
     </g>

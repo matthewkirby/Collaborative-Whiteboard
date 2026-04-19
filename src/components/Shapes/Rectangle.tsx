@@ -10,8 +10,8 @@ export const Rectangle = ({
   return (
     <rect
       key={rectangle.id}
-      x={rectangle.x} // Top left corner of rect
-      y={rectangle.y} // Top left corner of rect
+      x={rectangle.x}
+      y={rectangle.y}
       width={rectangle.width}
       height={rectangle.height}
       fill="white"

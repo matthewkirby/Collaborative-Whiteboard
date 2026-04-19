@@ -7,12 +7,19 @@ export const Circle = ({
   onClick,
 }: ShapeComponentProps) => {
   const circle = shape as CircleModel;
+
+  const rx = circle.width / 2;
+  const ry = circle.height / 2;
+  const cx = circle.x + rx;
+  const cy = circle.y + ry;
+
   return (
-    <circle
+    <ellipse
       key={circle.id}
-      cx={circle.x} // Center of circle
-      cy={circle.y} // Center of circle
-      r={circle.radius}
+      cx={cx}
+      cy={cy}
+      rx={rx}
+      ry={ry}
       fill="white"
       stroke="black"
       onMouseDown={onMouseDown}

@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
 import { useBoardStore } from "../../store/boardStore";
+import type { ShapeTypes } from "../../types/shapecomponents";
 
 interface ButtonProps {
   display: string;
@@ -25,24 +26,14 @@ export const Toolbar = () => {
   const addShape = useBoardStore((s) => s.addShape);
   const setPointerMode = useBoardStore((s) => s.setPointerMode);
 
-  const addRectangle = () => {
+  const addShapeHandler = (type: ShapeTypes) => {
     addShape({
       id: nanoid(),
-      type: "rectangle",
+      type: type,
       x: 100,
       y: 100,
       width: 120,
       height: 80,
-    });
-  };
-
-  const addCircle = () => {
-    addShape({
-      id: nanoid(),
-      type: "circle",
-      x: 50,
-      y: 50,
-      radius: 30,
     });
   };
 
@@ -66,8 +57,16 @@ export const Toolbar = () => {
         />
       </span>
       <span>
-        <Button display="Rectangle" name="rectangle" onClick={addRectangle} />
-        <Button display="Circle" name="circle" onClick={addCircle} />
+        <Button
+          display="Rectangle"
+          name="rectangle"
+          onClick={() => addShapeHandler("rectangle")}
+        />
+        <Button
+          display="Circle"
+          name="circle"
+          onClick={() => addShapeHandler("circle")}
+        />
       </span>
     </div>
   );
