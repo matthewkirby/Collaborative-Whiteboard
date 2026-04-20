@@ -1,12 +1,21 @@
 import { create } from "zustand";
 import type { ShapeModels } from "../types/shapemodels";
 
-interface Coords {
+export interface Coords {
   x: number;
   y: number;
 }
 
 export type PointerModes = "pen" | "select" | "none";
+export type ResizeDirections =
+  | "nw"
+  | "n"
+  | "ne"
+  | "w"
+  | "e"
+  | "sw"
+  | "s"
+  | "se";
 
 interface BoardState {
   selectedId?: string;
@@ -24,9 +33,15 @@ interface BoardState {
   draggingOffset?: Coords;
   startDrag: (id: string, offset: Coords) => void;
   stopDrag: () => void;
+
+  resizeDirection?: ResizeDirections;
+  resizeMouseDownLoc?: Coords;
+  resizeOriginalShape?: ShapeModels;
+  startResize: (loc: Coords, dir: ResizeDirections) => void;
+  stopResize: () => void;
 }
 
-export const useBoardStore = create<BoardState>((set) => ({
+export const useBoardStore = create<BoardState>((set, get) => ({
   selectedId: undefined,
   updateSelection: (id) => {
     set({ selectedId: id });
@@ -65,6 +80,26 @@ export const useBoardStore = create<BoardState>((set) => ({
     set({
       draggingId: undefined,
       draggingOffset: undefined,
+    });
+  },
+
+  resizeDirection: undefined,
+  resizeMouseDownLoc: undefined,
+  resizeOriginalShape: undefined,
+  startResize: (loc, dir) => {
+    const shape = get().shapes.find((s) => s.id === get().selectedId);
+    if (shape === undefined) return;
+    set({
+      resizeDirection: dir,
+      resizeMouseDownLoc: loc,
+      resizeOriginalShape: { ...shape },
+    });
+  },
+  stopResize: () => {
+    set({
+      resizeDirection: undefined,
+      resizeMouseDownLoc: undefined,
+      resizeOriginalShape: undefined,
     });
   },
 }));
