@@ -1,6 +1,4 @@
-import { nanoid } from "nanoid";
-import { useBoardStore } from "../../store/boardStore";
-import type { ShapeTypes } from "../../types/shapecomponents";
+import { useBoardStore, type ShapeToolTypes } from "../../store/boardStore";
 
 interface ButtonProps {
   display: string;
@@ -10,7 +8,9 @@ interface ButtonProps {
 
 const Button = ({ display, name, onClick }: ButtonProps) => {
   const pointerMode = useBoardStore((s) => s.pointerMode);
-  const isActive = pointerMode === name;
+  const shapeToolMode = useBoardStore((s) => s.shapeToolMode);
+  const isActive =
+    pointerMode === "shape" ? shapeToolMode === name : pointerMode === name;
 
   return (
     <button
@@ -23,18 +23,23 @@ const Button = ({ display, name, onClick }: ButtonProps) => {
 };
 
 export const Toolbar = () => {
-  const addShape = useBoardStore((s) => s.addShape);
   const setPointerMode = useBoardStore((s) => s.setPointerMode);
+  const setShapeToolMode = useBoardStore((s) => s.setShapeToolMode);
 
-  const addShapeHandler = (type: ShapeTypes) => {
-    addShape({
-      id: nanoid(),
-      type: type,
-      x: 100,
-      y: 100,
-      width: 120,
-      height: 80,
-    });
+  // const addShapeHandler = (type: ShapeTypes) => {
+  //   addShape({
+  //     id: nanoid(),
+  //     type: type,
+  //     x: 100,
+  //     y: 100,
+  //     width: 120,
+  //     height: 80,
+  //   });
+  // };
+
+  const choseShapeMode = (type: ShapeToolTypes) => {
+    setPointerMode("shape");
+    setShapeToolMode(type);
   };
 
   return (
@@ -60,12 +65,12 @@ export const Toolbar = () => {
         <Button
           display="Rectangle"
           name="rectangle"
-          onClick={() => addShapeHandler("rectangle")}
+          onClick={() => choseShapeMode("rectangle")}
         />
         <Button
           display="Circle"
           name="circle"
-          onClick={() => addShapeHandler("circle")}
+          onClick={() => choseShapeMode("circle")}
         />
       </span>
     </div>

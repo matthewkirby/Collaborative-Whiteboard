@@ -6,7 +6,8 @@ export interface Coords {
   y: number;
 }
 
-export type PointerModes = "pen" | "select" | "none";
+export type PointerModes = "pen" | "select" | "shape" | "none";
+export type ShapeToolTypes = "rectangle" | "circle";
 export type ResizeDirections =
   | "nw"
   | "n"
@@ -39,6 +40,9 @@ interface BoardState {
   resizeOriginalShape?: ShapeModels;
   startResize: (loc: Coords, dir: ResizeDirections) => void;
   stopResize: () => void;
+
+  shapeToolMode?: ShapeToolTypes;
+  setShapeToolMode: (stm: ShapeToolTypes) => void;
 }
 
 export const useBoardStore = create<BoardState>((set, get) => ({
@@ -101,6 +105,11 @@ export const useBoardStore = create<BoardState>((set, get) => ({
       resizeMouseDownLoc: undefined,
       resizeOriginalShape: undefined,
     });
+  },
+
+  shapeToolMode: undefined,
+  setShapeToolMode: (stm) => {
+    set({ shapeToolMode: stm });
   },
 }));
 // For future me, regarding the typing in updateShape
