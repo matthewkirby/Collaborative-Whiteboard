@@ -25,6 +25,8 @@ export const Canvas = () => {
   const stopShapeSpawn = useBoardStore((s) => s.stopShapeSpawn);
 
   const handleMouseUp = () => {
+    // Implement a normalization function here for all manipulated shapes
+    // - If w or h = 0, shape is invisible and unselectable so delete it
     stopDrag();
     stopResize();
     if (newShape) stopShapeSpawn();

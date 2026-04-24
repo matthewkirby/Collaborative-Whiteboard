@@ -1,5 +1,6 @@
 import type { RectangleModel } from "../../types/shapemodels";
 import type { ShapeComponentProps } from "../../types/shapecomponents";
+import { handleNegativeSizes } from "../../utils/geometry";
 
 export const Rectangle = ({
   shape,
@@ -7,13 +8,15 @@ export const Rectangle = ({
   onClick,
 }: ShapeComponentProps) => {
   const rectangle = shape as RectangleModel;
+  const { x, y, w, h } = handleNegativeSizes(rectangle);
+
   return (
     <rect
       key={rectangle.id}
-      x={rectangle.x}
-      y={rectangle.y}
-      width={rectangle.width}
-      height={rectangle.height}
+      x={x}
+      y={y}
+      width={w}
+      height={h}
       fill="white"
       stroke="black"
       onMouseDown={onMouseDown}

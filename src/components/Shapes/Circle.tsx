@@ -1,5 +1,6 @@
 import type { CircleModel } from "../../types/shapemodels";
 import type { ShapeComponentProps } from "../../types/shapecomponents";
+import { handleNegativeSizes } from "../../utils/geometry";
 
 export const Circle = ({
   shape,
@@ -7,11 +8,12 @@ export const Circle = ({
   onClick,
 }: ShapeComponentProps) => {
   const circle = shape as CircleModel;
+  const { x, y, w, h } = handleNegativeSizes(circle);
 
-  const rx = circle.width / 2;
-  const ry = circle.height / 2;
-  const cx = circle.x + rx;
-  const cy = circle.y + ry;
+  const rx = w / 2;
+  const ry = h / 2;
+  const cx = x + rx;
+  const cy = y + ry;
 
   return (
     <ellipse
