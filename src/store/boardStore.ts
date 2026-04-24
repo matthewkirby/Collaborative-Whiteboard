@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import type { ShapeModels } from "../types/shapemodels";
+import { nanoid } from "nanoid";
 
 export interface Coords {
   x: number;
@@ -28,6 +29,7 @@ interface BoardState {
 
   shapes: ShapeModels[];
   addShape: (shape: ShapeModels) => void;
+  deleteShape: (id: string) => void;
   updateShape: (id: string, updates: Partial<ShapeModels>) => void;
 
   draggingId?: string;
@@ -41,8 +43,11 @@ interface BoardState {
   startResize: (loc: Coords, dir: ResizeDirections) => void;
   stopResize: () => void;
 
+  newShape?: ShapeModels;
   shapeToolMode?: ShapeToolTypes;
   setShapeToolMode: (stm: ShapeToolTypes) => void;
+  startShapeSpawn: (loc: Coords) => void;
+  stopShapeSpawn: () => void;
 }
 
 export const useBoardStore = create<BoardState>((set, get) => ({
@@ -54,7 +59,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
     set({ selectedId: undefined });
   },
 
-  pointerMode: "select",
+  pointerMode: "select" as PointerModes,
   setPointerMode: (p) => {
     set({ pointerMode: p, selectedId: undefined });
   },
@@ -63,6 +68,10 @@ export const useBoardStore = create<BoardState>((set, get) => ({
   addShape: (shape) =>
     set((state) => ({
       shapes: [...state.shapes, shape],
+    })),
+  deleteShape: (id) =>
+    set((state) => ({
+      shapes: state.shapes.filter((s) => s.id !== id),
     })),
   updateShape: <T extends ShapeModels["type"]>(
     id: string,
@@ -107,9 +116,35 @@ export const useBoardStore = create<BoardState>((set, get) => ({
     });
   },
 
+  newShape: undefined,
   shapeToolMode: undefined,
   setShapeToolMode: (stm) => {
     set({ shapeToolMode: stm });
+  },
+  startShapeSpawn: (loc) => {
+    const stm = get().shapeToolMode;
+    if (stm === undefined) return;
+    console.log("Starting", stm, loc);
+    const id = nanoid();
+    const shape = {
+      id: id,
+      type: stm,
+      x: loc.x,
+      y: loc.y,
+      width: 0,
+      height: 0,
+    };
+    set({ newShape: { ...shape } });
+    get().addShape(shape);
+  },
+  stopShapeSpawn: () => {
+    console.log("Done");
+    const id = get().newShape?.id;
+    const newShape = get().shapes.find((s) => s.id === id);
+    if (id && (newShape?.width === 0 || newShape?.height === 0)) {
+      get().deleteShape(id);
+    }
+    set({ newShape: undefined });
   },
 }));
 // For future me, regarding the typing in updateShape

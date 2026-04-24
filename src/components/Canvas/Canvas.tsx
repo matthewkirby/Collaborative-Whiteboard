@@ -20,9 +20,14 @@ export const Canvas = () => {
   const selectedId = useBoardStore((s) => s.selectedId);
   const resetSelection = useBoardStore((s) => s.resetSelection);
 
+  const newShape = useBoardStore((s) => s.newShape);
+  const startShapeSpawn = useBoardStore((s) => s.startShapeSpawn);
+  const stopShapeSpawn = useBoardStore((s) => s.stopShapeSpawn);
+
   const handleMouseUp = () => {
     stopDrag();
     stopResize();
+    if (newShape) stopShapeSpawn();
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -40,16 +45,23 @@ export const Canvas = () => {
       const dy = e.nativeEvent.offsetY - resizeMouseDownLoc.y;
       const updates = resizeShape(resizeOriginalShape, resizeDirection, dx, dy);
       updateShape(selectedId, updates);
+    } else if (newShape !== undefined) {
+      const dx = e.nativeEvent.offsetX - newShape.x;
+      const dy = e.nativeEvent.offsetY - newShape.y;
+      const updates = resizeShape(newShape, "se", dx, dy);
+      updateShape(newShape.id, updates);
     } else {
       return;
     }
   };
 
-  const handleOnMouseDown = () => {
+  const handleOnMouseDown = (e: React.MouseEvent) => {
     if (pointerMode === "select") {
       if (selectedId) {
         resetSelection();
       }
+    } else if (pointerMode === "shape") {
+      startShapeSpawn({ x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY });
     }
   };
 
@@ -59,7 +71,7 @@ export const Canvas = () => {
         className="bg-slate-800 w-full h-full"
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
-        onMouseDown={handleOnMouseDown}
+        onMouseDown={(e) => handleOnMouseDown(e)}
       >
         {shapes.map((shape, i) => {
           return <Shape key={i} shape={shape} />;
