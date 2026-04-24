@@ -28,6 +28,7 @@ interface BoardState {
   setPointerMode: (p: PointerModes) => void;
 
   shapes: ShapeModels[];
+  getShapeById: (id: string | undefined) => ShapeModels | undefined;
   addShape: (shape: ShapeModels) => void;
   deleteShape: (id: string) => void;
   updateShape: (id: string, updates: Partial<ShapeModels>) => void;
@@ -65,6 +66,10 @@ export const useBoardStore = create<BoardState>((set, get) => ({
   },
 
   shapes: [],
+  getShapeById: (id) => {
+    if (id === undefined) return undefined;
+    return get().shapes.find((s) => s.id === id);
+  },
   addShape: (shape) =>
     set((state) => ({
       shapes: [...state.shapes, shape],
@@ -100,7 +105,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
   resizeMouseDownLoc: undefined,
   resizeOriginalShape: undefined,
   startResize: (loc, dir) => {
-    const shape = get().shapes.find((s) => s.id === get().selectedId);
+    const shape = get().getShapeById(get().selectedId)
     if (shape === undefined) return;
     set({
       resizeDirection: dir,
@@ -141,7 +146,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
   stopShapeSpawn: () => {
     console.log("Done");
     const id = get().newShape?.id;
-    const newShape = get().shapes.find((s) => s.id === id);
+    const newShape = get().getShapeById(id)
     if (id !== undefined && newShape !== undefined) {
       if (newShape.width === 0 || newShape.height === 0) {
         get().deleteShape(id);

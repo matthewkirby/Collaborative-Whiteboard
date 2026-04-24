@@ -2,9 +2,11 @@ import type React from "react";
 import { useBoardStore } from "../../store/boardStore";
 import { Shape } from "../Shapes/Shape";
 import { resizeShape } from "../../utils/resizeShape";
+import { SelectionHandles } from "../Shapes/SelectionHandles";
 
 export const Canvas = () => {
   const shapes = useBoardStore((s) => s.shapes);
+  const getShapeById = useBoardStore((s) => s.getShapeById);
   const updateShape = useBoardStore((s) => s.updateShape);
   const stopDrag = useBoardStore((s) => s.stopDrag);
 
@@ -67,6 +69,8 @@ export const Canvas = () => {
     }
   };
 
+  const selectedShape = getShapeById(selectedId);
+
   return (
     <div className="min-h-0 overflow-auto">
       <svg
@@ -78,6 +82,7 @@ export const Canvas = () => {
         {shapes.map((shape, i) => {
           return <Shape key={i} shape={shape} />;
         })}
+        {selectedShape && <SelectionHandles shape={selectedShape} />}
       </svg>
     </div>
   );

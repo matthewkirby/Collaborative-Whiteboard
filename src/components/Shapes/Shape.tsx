@@ -7,7 +7,6 @@ import type {
   ShapeComponentProps,
   ShapeTypes,
 } from "../../types/shapecomponents";
-import { SelectionHandles } from "./SelectionHandles";
 
 const shapeComponents: Record<ShapeTypes, React.FC<ShapeComponentProps>> = {
   rectangle: Rectangle,
@@ -20,7 +19,6 @@ interface ShapeProps {
 
 export const Shape = ({ shape }: ShapeProps) => {
   const pointerMode = useBoardStore((s) => s.pointerMode);
-  const selectedId = useBoardStore((s) => s.selectedId);
   const updateSelection = useBoardStore((s) => s.updateSelection);
   const startDrag = useBoardStore((s) => s.startDrag);
 
@@ -41,18 +39,12 @@ export const Shape = ({ shape }: ShapeProps) => {
   };
 
   const ShapeComponent = shapeComponents[shape.type];
-  const isSelected =
-    shape.id === selectedId &&
-    (pointerMode === "select" || pointerMode === "shape");
 
   return (
-    <g>
-      <ShapeComponent
-        shape={shape}
-        onMouseDown={handleMouseDown}
-        onClick={handleOnClick}
-      />
-      {isSelected && <SelectionHandles shape={shape} />}
-    </g>
+    <ShapeComponent
+      shape={shape}
+      onMouseDown={handleMouseDown}
+      onClick={handleOnClick}
+    />
   );
 };
