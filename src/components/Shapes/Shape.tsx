@@ -41,7 +41,9 @@ export const Shape = ({ shape }: ShapeProps) => {
   };
 
   const ShapeComponent = shapeComponents[shape.type];
-  const isSelected = shape.id === selectedId && pointerMode === "select";
+  const isSelected =
+    shape.id === selectedId &&
+    (pointerMode === "select" || pointerMode === "shape");
 
   return (
     <g>

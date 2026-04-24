@@ -136,14 +136,20 @@ export const useBoardStore = create<BoardState>((set, get) => ({
     };
     set({ newShape: { ...shape } });
     get().addShape(shape);
+    get().resetSelection();
   },
   stopShapeSpawn: () => {
     console.log("Done");
     const id = get().newShape?.id;
     const newShape = get().shapes.find((s) => s.id === id);
-    if (id && (newShape?.width === 0 || newShape?.height === 0)) {
-      get().deleteShape(id);
+    if (id !== undefined && newShape !== undefined) {
+      if (newShape.width === 0 || newShape.height === 0) {
+        get().deleteShape(id);
+      } else {
+        get().updateSelection(id);
+      }
     }
+
     set({ newShape: undefined });
   },
 }));
