@@ -1,6 +1,6 @@
 import type React from "react";
-import type { ShapeModels } from "../../types/shapemodels";
 import { useBoardStore, type ResizeDirections } from "../../store/boardStore";
+import type { StyledSelectionProps } from "./Selection";
 
 // Handles defined by directions
 //  nw --- n --- ne
@@ -11,10 +11,6 @@ import { useBoardStore, type ResizeDirections } from "../../store/boardStore";
 
 const HANDLE_SIZE = 8;
 
-interface SelectionHandlesProps {
-  shape: ShapeModels;
-}
-
 interface handleType {
   cx: number;
   cy: number;
@@ -22,7 +18,7 @@ interface handleType {
   dir: ResizeDirections;
 }
 
-export const SelectionHandles = ({ shape }: SelectionHandlesProps) => {
+export const SelectionHandles = ({ shape, styles }: StyledSelectionProps) => {
   const startResize = useBoardStore((s) => s.startResize);
   const { x, y, width, height } = shape;
 
@@ -74,7 +70,7 @@ export const SelectionHandles = ({ shape }: SelectionHandlesProps) => {
           height={HANDLE_SIZE}
           width={HANDLE_SIZE}
           fill="white"
-          stroke="blue"
+          stroke={styles.stroke}
           strokeWidth={1}
           key={i}
           className={h.styles}

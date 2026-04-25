@@ -68,7 +68,7 @@ export const Toolbar = () => {
           onClick={() => choseShapeMode("rectangle")}
         />
         <Button
-          display="Circle"
+          display="Ellipse"
           name="circle"
           onClick={() => choseShapeMode("circle")}
         />

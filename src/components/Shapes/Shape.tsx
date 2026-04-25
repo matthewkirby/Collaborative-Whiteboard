@@ -19,11 +19,12 @@ interface ShapeProps {
 
 export const Shape = ({ shape }: ShapeProps) => {
   const pointerMode = useBoardStore((s) => s.pointerMode);
+  const selectedId = useBoardStore((s) => s.selectedId);
   const updateSelection = useBoardStore((s) => s.updateSelection);
   const startDrag = useBoardStore((s) => s.startDrag);
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (pointerMode === "select") {
+    if (pointerMode === "select" || (pointerMode === "shape" && selectedId === shape.id)) {
       e.stopPropagation();
       updateSelection(shape.id);
 

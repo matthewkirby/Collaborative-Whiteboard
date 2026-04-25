@@ -2,7 +2,7 @@ import type React from "react";
 import { useBoardStore } from "../../store/boardStore";
 import { Shape } from "../Shapes/Shape";
 import { resizeShape } from "../../utils/resizeShape";
-import { SelectionHandles } from "../Shapes/SelectionHandles";
+import { Selection } from "../Selection/Selection";
 
 export const Canvas = () => {
   const shapes = useBoardStore((s) => s.shapes);
@@ -82,7 +82,7 @@ export const Canvas = () => {
         {shapes.map((shape, i) => {
           return <Shape key={i} shape={shape} />;
         })}
-        {selectedShape && <SelectionHandles shape={selectedShape} />}
+        {selectedShape && <Selection shape={selectedShape} />}
       </svg>
     </div>
   );

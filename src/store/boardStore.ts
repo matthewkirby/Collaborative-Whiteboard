@@ -105,7 +105,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
   resizeMouseDownLoc: undefined,
   resizeOriginalShape: undefined,
   startResize: (loc, dir) => {
-    const shape = get().getShapeById(get().selectedId)
+    const shape = get().getShapeById(get().selectedId);
     if (shape === undefined) return;
     set({
       resizeDirection: dir,
@@ -129,7 +129,6 @@ export const useBoardStore = create<BoardState>((set, get) => ({
   startShapeSpawn: (loc) => {
     const stm = get().shapeToolMode;
     if (stm === undefined) return;
-    console.log("Starting", stm, loc);
     const id = nanoid();
     const shape = {
       id: id,
@@ -144,9 +143,8 @@ export const useBoardStore = create<BoardState>((set, get) => ({
     get().resetSelection();
   },
   stopShapeSpawn: () => {
-    console.log("Done");
     const id = get().newShape?.id;
-    const newShape = get().getShapeById(id)
+    const newShape = get().getShapeById(id);
     if (id !== undefined && newShape !== undefined) {
       if (newShape.width === 0 || newShape.height === 0) {
         get().deleteShape(id);
