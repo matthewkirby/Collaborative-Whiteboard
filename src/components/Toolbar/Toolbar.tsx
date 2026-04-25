@@ -26,17 +26,6 @@ export const Toolbar = () => {
   const setPointerMode = useBoardStore((s) => s.setPointerMode);
   const setShapeToolMode = useBoardStore((s) => s.setShapeToolMode);
 
-  // const addShapeHandler = (type: ShapeTypes) => {
-  //   addShape({
-  //     id: nanoid(),
-  //     type: type,
-  //     x: 100,
-  //     y: 100,
-  //     width: 120,
-  //     height: 80,
-  //   });
-  // };
-
   const choseShapeMode = (type: ShapeToolTypes) => {
     setPointerMode("shape");
     setShapeToolMode(type);
