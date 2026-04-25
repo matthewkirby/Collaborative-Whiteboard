@@ -12,6 +12,9 @@ export interface BaseShapeModel {
   y: number;
   width: number;
   height: number;
+  fillColor: string;
+  strokeColor: string;
+  strokeWidth: number;
 }
 
 export interface RectangleModel extends BaseShapeModel {

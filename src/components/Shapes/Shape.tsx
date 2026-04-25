@@ -22,9 +22,13 @@ export const Shape = ({ shape }: ShapeProps) => {
   const selectedId = useBoardStore((s) => s.selectedId);
   const updateSelection = useBoardStore((s) => s.updateSelection);
   const startDrag = useBoardStore((s) => s.startDrag);
+  const getAllShapeStyleInfo = useBoardStore((s) => s.getAllShapeStyleInfo);
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (pointerMode === "select" || (pointerMode === "shape" && selectedId === shape.id)) {
+    if (
+      pointerMode === "select" ||
+      (pointerMode === "shape" && selectedId === shape.id)
+    ) {
       e.stopPropagation();
       updateSelection(shape.id);
 
@@ -44,6 +48,7 @@ export const Shape = ({ shape }: ShapeProps) => {
   return (
     <ShapeComponent
       shape={shape}
+      styling={getAllShapeStyleInfo()}
       onMouseDown={handleMouseDown}
       onClick={handleOnClick}
     />

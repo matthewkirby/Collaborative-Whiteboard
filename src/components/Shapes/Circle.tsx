@@ -4,6 +4,7 @@ import { handleNegativeSizes } from "../../utils/geometry";
 
 export const Circle = ({
   shape,
+  styling,
   onMouseDown,
   onClick,
 }: ShapeComponentProps) => {
@@ -22,8 +23,7 @@ export const Circle = ({
       cy={cy}
       rx={rx}
       ry={ry}
-      fill="white"
-      stroke="black"
+      {...styling}
       onMouseDown={onMouseDown}
       onClick={onClick}
     />

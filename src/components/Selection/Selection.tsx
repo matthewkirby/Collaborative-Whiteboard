@@ -19,6 +19,7 @@ export const Selection = (props: SelectionProps) => {
 
   return (
     <>
+      {/* Revise later to use path and marker elements instead */}
       <SelectionBox {...props} styles={styles} />
       <SelectionHandles {...props} styles={styles} />
     </>

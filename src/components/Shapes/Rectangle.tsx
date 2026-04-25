@@ -4,6 +4,7 @@ import { handleNegativeSizes } from "../../utils/geometry";
 
 export const Rectangle = ({
   shape,
+  styling,
   onMouseDown,
   onClick,
 }: ShapeComponentProps) => {
@@ -17,8 +18,7 @@ export const Rectangle = ({
       y={y}
       width={w}
       height={h}
-      fill="white"
-      stroke="black"
+      {...styling}
       onMouseDown={onMouseDown}
       onClick={onClick}
     />

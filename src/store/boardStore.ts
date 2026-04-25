@@ -19,6 +19,11 @@ export type ResizeDirections =
   | "s"
   | "se";
 
+type ShapeStyleInfo = {
+  fill: string;
+  stroke: string;
+};
+
 interface BoardState {
   selectedId?: string;
   updateSelection: (id: string) => void;
@@ -49,6 +54,14 @@ interface BoardState {
   setShapeToolMode: (stm: ShapeToolTypes) => void;
   startShapeSpawn: (loc: Coords) => void;
   stopShapeSpawn: () => void;
+
+  activeFillColor: string;
+  activeStrokeColor: string;
+  activeStrokeWidth: number;
+  setActiveFillColor: (color: string) => void;
+  setActiveStrokeColor: (color: string) => void;
+  setActiveStrokeWidth: (width: number) => void;
+  getAllShapeStyleInfo: () => ShapeStyleInfo;
 }
 
 export const useBoardStore = create<BoardState>((set, get) => ({
@@ -137,6 +150,9 @@ export const useBoardStore = create<BoardState>((set, get) => ({
       y: loc.y,
       width: 0,
       height: 0,
+      strokeColor: get().activeStrokeColor,
+      fillColor: get().activeFillColor,
+      strokeWidth: get().activeStrokeWidth,
     };
     set({ newShape: { ...shape } });
     get().addShape(shape);
@@ -154,6 +170,20 @@ export const useBoardStore = create<BoardState>((set, get) => ({
     }
 
     set({ newShape: undefined });
+  },
+
+  activeFillColor: "#ffffff",
+  activeStrokeColor: "#000000",
+  activeStrokeWidth: 1,
+  setActiveFillColor: (color) => set({ activeFillColor: color }),
+  setActiveStrokeColor: (color) => set({ activeStrokeColor: color }),
+  setActiveStrokeWidth: (width) => set({ activeStrokeWidth: width }),
+  getAllShapeStyleInfo: () => {
+    return {
+      fill: get().activeFillColor,
+      stroke: get().activeStrokeColor,
+      strokeWidth: get().activeStrokeWidth,
+    };
   },
 }));
 // For future me, regarding the typing in updateShape
