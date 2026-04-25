@@ -22,7 +22,12 @@ export const Shape = ({ shape }: ShapeProps) => {
   const selectedId = useBoardStore((s) => s.selectedId);
   const updateSelection = useBoardStore((s) => s.updateSelection);
   const startDrag = useBoardStore((s) => s.startDrag);
-  const getAllShapeStyleInfo = useBoardStore((s) => s.getAllShapeStyleInfo);
+
+  const styles = {
+    fill: shape.fillColor,
+    stroke: shape.strokeColor,
+    strokeWidth: shape.strokeWidth,
+  }
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (
@@ -48,7 +53,7 @@ export const Shape = ({ shape }: ShapeProps) => {
   return (
     <ShapeComponent
       shape={shape}
-      styling={getAllShapeStyleInfo()}
+      styling={styles}
       onMouseDown={handleMouseDown}
       onClick={handleOnClick}
     />
