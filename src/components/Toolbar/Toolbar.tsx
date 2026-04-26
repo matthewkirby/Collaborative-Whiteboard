@@ -1,4 +1,5 @@
 import { useBoardStore, type ShapeToolTypes } from "../../store/boardStore";
+import { ColorPicker } from "./ColorPicker";
 
 interface ButtonProps {
   display: string;
@@ -32,8 +33,8 @@ export const Toolbar = () => {
   };
 
   return (
-    <div className="flex bg-slate-600 p-2 gap-2">
-      <span>
+    <div className="flex bg-slate-600 p-2 gap-2 items-center">
+      <div className="flex">
         <Button
           display="Pen"
           name="pen"
@@ -49,8 +50,8 @@ export const Toolbar = () => {
           name="none"
           onClick={() => setPointerMode("none")}
         />
-      </span>
-      <span>
+      </div>
+      <div className="flex">
         <Button
           display="Rectangle"
           name="rectangle"
@@ -61,7 +62,22 @@ export const Toolbar = () => {
           name="circle"
           onClick={() => choseShapeMode("circle")}
         />
-      </span>
+      </div>
+      <div className="flex gap-1">
+        <ColorPicker />
+      </div>
+      <div className="flex ml-auto">
+        <Button
+          display="Trash"
+          name="trash"
+          onClick={() => console.log("TBD")}
+        />
+        <Button
+          display="Reset"
+          name="trash"
+          onClick={() => console.log("TBD")}
+        />
+      </div>
     </div>
   );
 };
