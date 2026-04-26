@@ -26,6 +26,7 @@ const Button = ({ display, name, onClick }: ButtonProps) => {
 export const Toolbar = () => {
   const setPointerMode = useBoardStore((s) => s.setPointerMode);
   const setShapeToolMode = useBoardStore((s) => s.setShapeToolMode);
+  const deleteSelectedShape = useBoardStore((s) => s.deleteSelectedShape);
 
   const choseShapeMode = (type: ShapeToolTypes) => {
     setPointerMode("shape");
@@ -70,7 +71,7 @@ export const Toolbar = () => {
         <Button
           display="Trash"
           name="trash"
-          onClick={() => console.log("TBD")}
+          onClick={() => deleteSelectedShape()}
         />
         <Button
           display="Reset"

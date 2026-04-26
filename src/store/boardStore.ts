@@ -36,6 +36,7 @@ interface BoardState {
   getShapeById: (id: string | undefined) => ShapeModels | undefined;
   addShape: (shape: ShapeModels) => void;
   deleteShape: (id: string) => void;
+  deleteSelectedShape: () => void;
   updateShape: (id: string, updates: Partial<ShapeModels>) => void;
 
   draggingId?: string;
@@ -87,10 +88,16 @@ export const useBoardStore = create<BoardState>((set, get) => ({
     set((state) => ({
       shapes: [...state.shapes, shape],
     })),
-  deleteShape: (id) =>
+  deleteShape: (id) => {
+    if (get().selectedId === id) get().resetSelection();
     set((state) => ({
       shapes: state.shapes.filter((s) => s.id !== id),
-    })),
+    }));
+  },
+  deleteSelectedShape: () => {
+    const selectedId = get().selectedId;
+    if (selectedId !== undefined) get().deleteShape(selectedId);
+  },
   updateShape: <T extends ShapeModels["type"]>(
     id: string,
     updates: Partial<Extract<ShapeModels, { type: T }>>,

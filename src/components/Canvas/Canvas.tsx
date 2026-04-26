@@ -3,11 +3,13 @@ import { useBoardStore } from "../../store/boardStore";
 import { Shape } from "../Shapes/Shape";
 import { resizeShape } from "../../utils/resizeShape";
 import { Selection } from "../Selection/Selection";
+import { useEffect } from "react";
 
 export const Canvas = () => {
   const shapes = useBoardStore((s) => s.shapes);
   const getShapeById = useBoardStore((s) => s.getShapeById);
   const updateShape = useBoardStore((s) => s.updateShape);
+  const deleteSelectedShape = useBoardStore((s) => s.deleteSelectedShape);
   const stopDrag = useBoardStore((s) => s.stopDrag);
 
   const draggingId = useBoardStore((s) => s.draggingId);
@@ -68,6 +70,16 @@ export const Canvas = () => {
       startShapeSpawn({ x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY });
     }
   };
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement).tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA") return;
+      if (e.key === "Delete" || e.key === "Backspace") deleteSelectedShape();
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [deleteSelectedShape]);
 
   const selectedShape = getShapeById(selectedId);
 
