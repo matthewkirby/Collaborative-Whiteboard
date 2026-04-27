@@ -1,5 +1,6 @@
 import { useBoardStore, type ShapeToolTypes } from "../../store/boardStore";
 import { ColorPicker } from "./ColorPicker";
+import { StrokeWidthPicker } from "./StrokeWidthPicker";
 
 interface ButtonProps {
   display: string;
@@ -66,6 +67,7 @@ export const Toolbar = () => {
       </div>
       <div className="flex gap-1">
         <ColorPicker />
+        <StrokeWidthPicker />
       </div>
       <div className="flex ml-auto">
         <Button
