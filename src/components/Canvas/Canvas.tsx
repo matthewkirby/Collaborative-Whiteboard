@@ -4,6 +4,7 @@ import { Shape } from "../Shapes/Shape";
 import { resizeShape } from "../../utils/resizeShape";
 import { Selection } from "../Selection/Selection";
 import { useEffect } from "react";
+import { LayersPanel } from "../LayersPanel/LayersPanel";
 
 export const Canvas = () => {
   const shapes = useBoardStore((s) => s.shapes);
@@ -96,6 +97,7 @@ export const Canvas = () => {
         })}
         {selectedShape && <Selection shape={selectedShape} />}
       </svg>
+      <LayersPanel />
     </div>
   );
 };

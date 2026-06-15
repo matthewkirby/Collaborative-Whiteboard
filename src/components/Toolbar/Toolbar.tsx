@@ -49,6 +49,12 @@ export const Toolbar = () => {
         <ColorPicker />
         <StrokeWidthPicker />
       </div>
+      <div className="flex ml-auto mr-auto">
+        <ActionButton
+          display="Layers"
+          onClick={() => useBoardStore.getState().toggleLayersPanel()}
+        />
+      </div>
       <div className="flex ml-auto">
         <ActionButton display="Trash" onClick={() => deleteSelectedShape()} />
         <ActionButton display="Reset" onClick={() => resetBoard()} />

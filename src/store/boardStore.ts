@@ -64,6 +64,14 @@ interface BoardState {
   setActiveStrokeColor: (color: string) => void;
   setActiveStrokeWidth: (width: number) => void;
   getAllShapeStyleInfo: () => ShapeStyleInfo;
+
+  maxZIndex: number;
+  setMaxZIndex: (z: number) => void;
+  getNewZIndex: () => number;
+  sortShapeArray: () => void;
+
+  showLayersPanel: boolean;
+  toggleLayersPanel: () => void;
 }
 
 export const useBoardStore = create<BoardState>((set, get) => ({
@@ -179,6 +187,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
       strokeColor: get().activeStrokeColor,
       fillColor: get().activeFillColor,
       strokeWidth: get().activeStrokeWidth,
+      zIndex: get().getNewZIndex(),
     };
     set({ newShape: { ...shape } });
     get().addShape(shape);
@@ -211,6 +220,25 @@ export const useBoardStore = create<BoardState>((set, get) => ({
       strokeWidth: get().activeStrokeWidth,
     };
   },
+
+  maxZIndex: 0,
+  setMaxZIndex: (z) => {
+    if (z > get().maxZIndex) set({ maxZIndex: z });
+  },
+  getNewZIndex: () => {
+    const newZ = get().maxZIndex + 1;
+    get().setMaxZIndex(newZ);
+    return newZ;
+  },
+  sortShapeArray: () => {
+    set((state) => ({
+      shapes: [...state.shapes].sort((a, b) => a.zIndex - b.zIndex),
+    }));
+  },
+
+  showLayersPanel: false,
+  toggleLayersPanel: () =>
+    set((state) => ({ showLayersPanel: !state.showLayersPanel })),
 }));
 // For future me, regarding the typing in updateShape
 // `Shapes` is a union of types

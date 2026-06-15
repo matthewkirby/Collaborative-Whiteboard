@@ -15,6 +15,7 @@ export interface BaseShapeModel {
   fillColor: string;
   strokeColor: string;
   strokeWidth: number;
+  zIndex: number;
 }
 
 export interface RectangleModel extends BaseShapeModel {
