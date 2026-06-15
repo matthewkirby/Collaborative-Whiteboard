@@ -12,9 +12,9 @@ export const ColorPicker = () => {
     <>
       <PopupButton
         trigger={
-          <div className="w-8 h-8 border border-gray-300 p-0.5 hover:border-gray-500 transition-colors bg-white">
+          <div className="w-8 h-8 border border-gray-600 p-0.5 hover:border-gray-400 transition-colors bg-gray-700">
             <div
-              className="w-full h-full ring-1 ring-gray-800"
+              className="w-full h-full ring-1 ring-gray-300"
               style={{ background: activeFillColor }}
             />
           </div>
@@ -30,7 +30,7 @@ export const ColorPicker = () => {
       <PopupButton
         trigger={
           <div
-            className="w-8 h-8 rounded-md hover:border-gray-500 transition-colors"
+            className="w-8 h-8 rounded-md border-gray-600 hover:border-gray-400 transition-colors bg-gray-700"
             style={{ border: `3px solid ${activeStrokeColor}` }}
           />
         }

@@ -1,28 +1,7 @@
 import { useBoardStore, type ShapeToolTypes } from "../../store/boardStore";
+import { ActionButton, ToolbarButton } from "../ui/ToolbarButtons";
 import { ColorPicker } from "./ColorPicker";
 import { StrokeWidthPicker } from "./StrokeWidthPicker";
-
-interface ButtonProps {
-  display: string;
-  name: string;
-  onClick: () => void;
-}
-
-const Button = ({ display, name, onClick }: ButtonProps) => {
-  const pointerMode = useBoardStore((s) => s.pointerMode);
-  const shapeToolMode = useBoardStore((s) => s.shapeToolMode);
-  const isActive =
-    pointerMode === "shape" ? shapeToolMode === name : pointerMode === name;
-
-  return (
-    <button
-      className={`p-2 first:border-l border-r border-y border-black ${isActive ? "underline bg-blue-200 hover:bg-blue-300" : "bg-gray-300 hover:bg-gray-400"} active:bg-blue-400`}
-      onClick={() => onClick()}
-    >
-      {display}
-    </button>
-  );
-};
 
 export const Toolbar = () => {
   const setPointerMode = useBoardStore((s) => s.setPointerMode);
@@ -35,31 +14,31 @@ export const Toolbar = () => {
   };
 
   return (
-    <div className="flex bg-slate-600 p-2 gap-2 items-center">
+    <div className="flex bg-gray-900 p-2 gap-2 items-center">
       <div className="flex">
-        <Button
+        <ToolbarButton
           display="Pen"
           name="pen"
           onClick={() => setPointerMode("pen")}
         />
-        <Button
+        <ToolbarButton
           display="Select"
           name="select"
           onClick={() => setPointerMode("select")}
         />
-        <Button
+        <ToolbarButton
           display="None"
           name="none"
           onClick={() => setPointerMode("none")}
         />
       </div>
       <div className="flex">
-        <Button
+        <ToolbarButton
           display="Rectangle"
           name="rectangle"
           onClick={() => choseShapeMode("rectangle")}
         />
-        <Button
+        <ToolbarButton
           display="Ellipse"
           name="circle"
           onClick={() => choseShapeMode("circle")}
@@ -70,16 +49,8 @@ export const Toolbar = () => {
         <StrokeWidthPicker />
       </div>
       <div className="flex ml-auto">
-        <Button
-          display="Trash"
-          name="trash"
-          onClick={() => deleteSelectedShape()}
-        />
-        <Button
-          display="Reset"
-          name="trash"
-          onClick={() => console.log("TBD")}
-        />
+        <ActionButton display="Trash" onClick={() => deleteSelectedShape()} />
+        <ActionButton display="Reset" onClick={() => console.log("TBD")} />
       </div>
     </div>
   );
