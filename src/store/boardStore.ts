@@ -38,6 +38,7 @@ interface BoardState {
   deleteShape: (id: string) => void;
   deleteSelectedShape: () => void;
   updateShape: (id: string, updates: Partial<ShapeModels>) => void;
+  resetBoard: () => void;
 
   draggingId?: string;
   draggingOffset?: Coords;
@@ -105,6 +106,24 @@ export const useBoardStore = create<BoardState>((set, get) => ({
     set((state) => ({
       shapes: state.shapes.map((s) => (s.id === id ? { ...s, ...updates } : s)),
     })),
+  resetBoard: () => {
+    if (
+      window.confirm(
+        "Are you sure you want to reset the board? This will delete all shapes.",
+      )
+    ) {
+      set({
+        shapes: [],
+        selectedId: undefined,
+        draggingId: undefined,
+        draggingOffset: undefined,
+        resizeDirection: undefined,
+        resizeMouseDownLoc: undefined,
+        resizeOriginalShape: undefined,
+        newShape: undefined,
+      });
+    }
+  },
 
   draggingId: undefined,
   draggingOffset: undefined,

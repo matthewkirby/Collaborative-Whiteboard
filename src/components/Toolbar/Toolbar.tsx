@@ -7,6 +7,7 @@ export const Toolbar = () => {
   const setPointerMode = useBoardStore((s) => s.setPointerMode);
   const setShapeToolMode = useBoardStore((s) => s.setShapeToolMode);
   const deleteSelectedShape = useBoardStore((s) => s.deleteSelectedShape);
+  const resetBoard = useBoardStore((s) => s.resetBoard);
 
   const choseShapeMode = (type: ShapeToolTypes) => {
     setPointerMode("shape");
@@ -50,7 +51,7 @@ export const Toolbar = () => {
       </div>
       <div className="flex ml-auto">
         <ActionButton display="Trash" onClick={() => deleteSelectedShape()} />
-        <ActionButton display="Reset" onClick={() => console.log("TBD")} />
+        <ActionButton display="Reset" onClick={() => resetBoard()} />
       </div>
     </div>
   );
