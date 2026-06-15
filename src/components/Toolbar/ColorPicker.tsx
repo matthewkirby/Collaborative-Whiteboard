@@ -1,4 +1,5 @@
 import { useBoardStore } from "../../store/boardStore";
+import { ColorSwatch } from "../ui/ColorSwatch";
 import { PopupButton } from "../ui/PopupButton";
 import { ColorPickerContents } from "./ColorPickerPopup";
 
@@ -12,10 +13,10 @@ export const ColorPicker = () => {
     <>
       <PopupButton
         trigger={
-          <div className="w-8 h-8 border border-gray-600 p-0.5 hover:border-gray-400 transition-colors bg-gray-700">
-            <div
-              className="w-full h-full ring-1 ring-gray-300"
-              style={{ background: activeFillColor }}
+          <div className="w-8 h-8 border border-gray-300 p-0.5 hover:border-gray-500 transition-colors bg-white">
+            <ColorSwatch
+              color={activeFillColor}
+              className="w-full h-full ring-1 ring-gray-800"
             />
           </div>
         }
